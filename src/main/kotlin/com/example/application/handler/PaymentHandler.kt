@@ -9,7 +9,7 @@ import org.http4k.core.Status.Companion.OK
 import org.http4k.core.with
 import org.http4k.format.Jackson.auto
 
-class UserHandler(
+class PaymentHandler(
     private val paymentRepository: PaymentRepository
 ) {
     fun getPayments() = { _: Request ->

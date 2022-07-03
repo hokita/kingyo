@@ -1,6 +1,6 @@
 package com.example
 
-import com.example.application.handler.UserHandler
+import com.example.application.handler.PaymentHandler
 import com.example.domain.repository.PaymentRepository
 import com.example.infrastructure.repository.PaymentRepositoryImpl
 import org.http4k.core.HttpHandler
@@ -19,7 +19,7 @@ class Router(
     val handler: HttpHandler
         get() {
             return routes(
-                "/payments" bind GET to UserHandler(paymentRepository).getPayments(),
+                "/payments" bind GET to PaymentHandler(paymentRepository).getPayments(),
             )
         }
 }
