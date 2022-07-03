@@ -1,1 +1,7 @@
-# kingyo
+# Kingyo
+
+## Package
+```
+./gradlew distZip
+```
+
