@@ -1,33 +1,33 @@
 package com.example
 
-import com.example.formats.JacksonMessage
-import com.example.formats.jacksonMessageLens
+import com.example.application.handler.UserHandler
+import com.example.domain.repository.PaymentRepository
+import com.example.infrastructure.repository.PaymentRepositoryImpl
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method.GET
-import org.http4k.core.Response
-import org.http4k.core.Status.Companion.OK
-import org.http4k.core.then
-import org.http4k.core.with
-import org.http4k.filter.DebuggingFilters.PrintRequest
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.server.SunHttp
 import org.http4k.server.asServer
 
-val app: HttpHandler = routes(
-    "/ping" bind GET to {
-        Response(OK).body("pong")
-    },
-
-    "/formats/json/jackson" bind GET to {
-        Response(OK).with(jacksonMessageLens of JacksonMessage("Barry", "Hello there!"))
-    }
-)
+class Router(
+    private val paymentRepository: PaymentRepository
+) {
+    val handler: HttpHandler
+        get() {
+            return routes(
+                "/payments" bind GET to UserHandler(paymentRepository).getPayments(),
+            )
+        }
+}
 
 fun main() {
-    val printingApp: HttpHandler = PrintRequest().then(app)
+    val paymentRepository = PaymentRepositoryImpl()
 
-    val server = printingApp.asServer(SunHttp(9000)).start()
+    val router = Router(
+        paymentRepository
+    )
 
+    val server = router.handler.asServer(SunHttp(9000)).start()
     println("Server started on " + server.port())
 }
