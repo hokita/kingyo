@@ -1,10 +1,26 @@
 ---
 version: '3.6'
 services:
-  app:
+  server:
     build:
       context: .
       dockerfile: ./docker/server/Dockerfile
+    depends_on:
+      - db
     ports:
       - '8080:9000'
     command: [ "java","-jar","/server/server.jar" ]
+  db:
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=kingyo
+      - MYSQL_USER=sa
+      - MYSQL_PASSWORD=1234
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./logs:/var/log/mysql
+volumes:
+  db-store:

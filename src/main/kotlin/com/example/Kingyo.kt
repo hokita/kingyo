@@ -9,6 +9,9 @@ import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.server.SunHttp
 import org.http4k.server.asServer
+import java.sql.Connection
+import java.sql.DriverManager
+import kotlin.system.exitProcess
 
 class Router(
     private val paymentRepository: PaymentRepository
@@ -22,12 +25,20 @@ class Router(
 }
 
 fun main() {
-    val paymentRepository = PaymentRepositoryImpl()
+    val connection: Connection
+    try {
+        connection = DriverManager.getConnection("jdbc:mysql://db/kingyo", "sa", "1234")
+    } catch (e: Exception) {
+        e.printStackTrace()
+        System.err.println("Failed to connect to DB.")
+        exitProcess(1)
+    }
 
+    val paymentRepository = PaymentRepositoryImpl(connection)
     val router = Router(
         paymentRepository
     )
 
-    val server = router.handler.asServer(SunHttp(9000)).start()
-    println("Server started on " + server.port())
+    router.handler.asServer(SunHttp(9000)).start()
+    println("Server started.")
 }
