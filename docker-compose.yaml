@@ -1,0 +1,10 @@
+---
+version: '3.6'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/server/Dockerfile
+    ports:
+      - '8080:9000'
+    command: [ "java","-jar","/server/server.jar" ]
