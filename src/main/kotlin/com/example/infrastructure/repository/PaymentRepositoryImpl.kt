@@ -7,11 +7,11 @@ import java.sql.Connection
 import java.time.ZonedDateTime
 
 class PaymentRepositoryImpl(
-    connection: Connection
+    private val connection: Connection
 ) : PaymentRepository {
-    private val statement = connection.createStatement()
 
-    override fun get(): Payments {
+    override fun getAll(): Payments {
+        val statement = connection.createStatement()
         val rs = statement.executeQuery("SELECT * FROM payments;")
 
         val payments = mutableListOf<Payment>()
@@ -36,5 +36,19 @@ class PaymentRepositoryImpl(
         }
 
         return Payments(payments)
+    }
+
+    override fun create(
+        payment: Payment
+    ) {
+        val statement = connection.prepareStatement(
+            "INSERT INTO payments (description, amount, paid_at, created_at, updated_at) VALUE (?, ?, ?, ?, ?);"
+        )
+        statement.setString(1, payment.description)
+        statement.setInt(2, payment.amount)
+        statement.setObject(3, payment.paidAt)
+        statement.setObject(4, payment.createdAt)
+        statement.setObject(5, payment.updatedAt)
+        statement.executeUpdate()
     }
 }

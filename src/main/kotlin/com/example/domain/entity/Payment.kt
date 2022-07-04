@@ -3,7 +3,7 @@ package com.example.domain.entity
 import java.time.ZonedDateTime
 
 data class Payment(
-    val id: Int,
+    val id: Int? = null,
     val description: String,
     val amount: Int,
     val paidAt: ZonedDateTime,

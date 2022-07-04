@@ -5,6 +5,9 @@ import com.example.domain.repository.PaymentRepository
 import com.example.infrastructure.repository.PaymentRepositoryImpl
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method.GET
+import org.http4k.core.Method.POST
+import org.http4k.core.then
+import org.http4k.filter.ServerFilters
 import org.http4k.routing.bind
 import org.http4k.routing.routes
 import org.http4k.server.SunHttp
@@ -14,14 +17,14 @@ import java.sql.DriverManager
 import kotlin.system.exitProcess
 
 class Router(
-    private val paymentRepository: PaymentRepository
+    paymentRepository: PaymentRepository
 ) {
-    val handler: HttpHandler
-        get() {
-            return routes(
-                "/payments" bind GET to PaymentHandler(paymentRepository).getPayments(),
-            )
-        }
+    val handler: HttpHandler = ServerFilters.CatchLensFailure.then(
+        routes(
+            "/payments" bind GET to PaymentHandler(paymentRepository).getAll(),
+            "/payments" bind POST to PaymentHandler(paymentRepository).create(),
+        )
+    )
 }
 
 fun main() {
