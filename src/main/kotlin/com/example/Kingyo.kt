@@ -17,14 +17,19 @@ import java.sql.DriverManager
 import kotlin.system.exitProcess
 
 class Router(
-    paymentRepository: PaymentRepository
+    private val paymentRepository: PaymentRepository
 ) {
-    val handler: HttpHandler = ServerFilters.CatchLensFailure.then(
-        routes(
-            "/payments" bind GET to PaymentHandler(paymentRepository).getAll(),
-            "/payments" bind POST to PaymentHandler(paymentRepository).create(),
-        )
-    )
+    val handler: HttpHandler
+        get() {
+            val paymentHandler = PaymentHandler(paymentRepository)
+
+            return ServerFilters.CatchLensFailure.then(
+                routes(
+                    "/payments" bind GET to paymentHandler.getAll,
+                    "/payments" bind POST to paymentHandler.create,
+                )
+            )
+        }
 }
 
 fun main() {
