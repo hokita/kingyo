@@ -14,14 +14,30 @@ import org.http4k.server.SunHttp
 import org.http4k.server.asServer
 import java.sql.Connection
 import java.sql.DriverManager
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.*
 import kotlin.system.exitProcess
 
+class SystemZonedDateTime(
+    private val timeZone: TimeZone
+) {
+    fun now(): ZonedDateTime {
+        return ZonedDateTime.now(timeZone.toZoneId())
+    }
+
+    fun toZoneId(): ZoneId {
+        return timeZone.toZoneId()
+    }
+}
+
 class Router(
+    private val systemDateTime: SystemZonedDateTime,
     private val paymentRepository: PaymentRepository
 ) {
     val handler: HttpHandler
         get() {
-            val paymentHandler = PaymentHandler(paymentRepository)
+            val paymentHandler = PaymentHandler(systemDateTime, paymentRepository)
 
             return ServerFilters.CatchLensFailure.then(
                 routes(
@@ -35,15 +51,21 @@ class Router(
 fun main() {
     val connection: Connection
     try {
-        connection = DriverManager.getConnection("jdbc:mysql://db/kingyo", "sa", "1234")
+        connection = DriverManager.getConnection(
+            "jdbc:mysql://db/kingyo?useLegacyDatetimeCode=false",
+            "sa",
+            "1234"
+        )
     } catch (e: Exception) {
         e.printStackTrace()
         System.err.println("Failed to connect to DB.")
         exitProcess(1)
     }
 
+    val systemDateTime = SystemZonedDateTime(TimeZone.getTimeZone("Asia/Tokyo"))
     val paymentRepository = PaymentRepositoryImpl(connection)
     val router = Router(
+        systemDateTime,
         paymentRepository
     )
 

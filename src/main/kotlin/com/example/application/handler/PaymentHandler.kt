@@ -1,22 +1,25 @@
 package com.example.application.handler
 
+import com.example.SystemZonedDateTime
 import com.example.application.form.PaymentCreateForm
+import com.example.application.view.PaymentsView
+import com.example.application.view.newPaymentsView
 import com.example.domain.entity.Payment
-import com.example.domain.entity.Payments
 import com.example.domain.repository.PaymentRepository
 import org.http4k.core.* // ktlint-disable no-wildcard-imports
 import org.http4k.core.Status.Companion.CREATED
 import org.http4k.core.Status.Companion.OK
 import org.http4k.format.Jackson.auto
-import java.time.ZonedDateTime
 
 class PaymentHandler(
+    private val systemDateTime: SystemZonedDateTime,
     private val paymentRepository: PaymentRepository
 ) {
     val getAll: HttpHandler = { _: Request ->
-        val paymentLens = Body.auto<Payments>().toLens()
+        val paymentLens = Body.auto<PaymentsView>().toLens()
         val payments = paymentRepository.getAll()
-        Response(OK).with(paymentLens of payments)
+        val paymentsView = newPaymentsView(payments, systemDateTime)
+        Response(OK).with(paymentLens of paymentsView)
     }
 
     val create: HttpHandler = { request: Request ->
@@ -26,9 +29,9 @@ class PaymentHandler(
             Payment(
                 description = form.description,
                 amount = form.amount,
-                paidAt = ZonedDateTime.now(),
-                createdAt = ZonedDateTime.now(),
-                updatedAt = ZonedDateTime.now(),
+                paidAt = systemDateTime.now(), // temp
+                createdAt = systemDateTime.now(),
+                updatedAt = systemDateTime.now(),
             )
         )
         Response(CREATED)
