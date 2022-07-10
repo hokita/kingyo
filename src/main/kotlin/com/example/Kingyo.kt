@@ -52,7 +52,7 @@ fun main() {
     val connection: Connection
     try {
         connection = DriverManager.getConnection(
-            "jdbc:mysql://db/kingyo?useLegacyDatetimeCode=false",
+            "jdbc:mysql://db/kingyo",
             "sa",
             "1234"
         )
