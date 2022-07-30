@@ -7,7 +7,7 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.* // ktlint-disable no-wildcard-imports
 import kotlin.system.exitProcess
 
 class SystemZonedDateTime(
