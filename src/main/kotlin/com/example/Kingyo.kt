@@ -1,15 +1,6 @@
 package com.example
 
-import com.example.application.handler.PaymentHandler
-import com.example.domain.repository.PaymentRepository
 import com.example.infrastructure.repository.PaymentRepositoryImpl
-import org.http4k.core.HttpHandler
-import org.http4k.core.Method.GET
-import org.http4k.core.Method.POST
-import org.http4k.core.then
-import org.http4k.filter.ServerFilters
-import org.http4k.routing.bind
-import org.http4k.routing.routes
 import org.http4k.server.SunHttp
 import org.http4k.server.asServer
 import java.sql.Connection
@@ -29,23 +20,6 @@ class SystemZonedDateTime(
     fun toZoneId(): ZoneId {
         return timeZone.toZoneId()
     }
-}
-
-class Router(
-    private val systemDateTime: SystemZonedDateTime,
-    private val paymentRepository: PaymentRepository
-) {
-    val handler: HttpHandler
-        get() {
-            val paymentHandler = PaymentHandler(systemDateTime, paymentRepository)
-
-            return ServerFilters.CatchLensFailure.then(
-                routes(
-                    "/payments" bind GET to paymentHandler.getAll,
-                    "/payments" bind POST to paymentHandler.create,
-                )
-            )
-        }
 }
 
 fun main() {
