@@ -10,11 +10,14 @@ import org.http4k.core.* // ktlint-disable no-wildcard-imports
 import org.http4k.core.Status.Companion.CREATED
 import org.http4k.core.Status.Companion.OK
 import org.http4k.format.Jackson.auto
+import java.time.format.DateTimeFormatter
 
 class PaymentHandler(
     private val systemDateTime: SystemZonedDateTime,
     private val paymentRepository: PaymentRepository
 ) {
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX")
+
     val getAll: HttpHandler = { _: Request ->
         val paymentLens = Body.auto<PaymentsView>().toLens()
         val payments = paymentRepository.getAll()
@@ -29,9 +32,9 @@ class PaymentHandler(
             Payment(
                 description = form.description,
                 amount = form.amount,
-                paidAt = systemDateTime.now(), // temp
+                paidAt = form.paidAt.atZone(systemDateTime.toZoneId()),
                 createdAt = systemDateTime.now(),
-                updatedAt = systemDateTime.now(),
+                updatedAt = systemDateTime.now()
             )
         )
         Response(CREATED)
