@@ -2,6 +2,5 @@
 
 ## Package
 ```
-./gradlew distZip
+./gradlew shadowJar
 ```
-
