@@ -5,6 +5,8 @@ import com.example.domain.repository.PaymentRepository
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method
 import org.http4k.core.then
+import org.http4k.filter.AllowAllOriginPolicy
+import org.http4k.filter.CorsPolicy
 import org.http4k.filter.ServerFilters
 import org.http4k.routing.bind
 import org.http4k.routing.routes
@@ -17,11 +19,23 @@ class Router(
         get() {
             val paymentHandler = PaymentHandler(systemDateTime, paymentRepository)
 
-            return ServerFilters.CatchLensFailure.then(
-                routes(
-                    "/payments" bind Method.GET to paymentHandler.getAll,
-                    "/payments" bind Method.POST to paymentHandler.create,
+            return ServerFilters.CatchLensFailure
+                .then(
+                    ServerFilters.Cors(
+                        CorsPolicy(
+                            AllowAllOriginPolicy,
+                            listOf("*"),
+                            Method.values().toList(),
+                            true
+                        )
+                    )
+                        .then(
+                            routes(
+                                "/payments" bind Method.GET to paymentHandler.getAll,
+                                "/payments" bind Method.POST to paymentHandler.create
+                            )
+
+                        )
                 )
-            )
         }
 }
