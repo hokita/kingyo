@@ -4,39 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25d98ad6-2894-4f5e-8957-582eaf405071" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/server/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/gradlew.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
-    </list>
+    <list default="true" id="25d98ad6-2894-4f5e-8957-582eaf405071" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,7 +72,7 @@
     <option name="myRunOnSave" value="true" />
   </component>
   <component name="ProjectId" id="2Cel5ip5VI75jAWKfVmklpHEf4Z" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">

@@ -2,6 +2,7 @@
 version: '3.6'
 services:
   server:
+    # image: ghcr.io/hokita/kingyo_server:main
     build:
       context: .
       dockerfile: ./docker/server/Dockerfile
@@ -10,16 +11,17 @@ services:
     ports:
       - '8080:9000'
   front:
+    # image: ghcr.io/hokita/kingyo_front:main
     build:
       context: .
       dockerfile: ./docker/front/Dockerfile
     ports:
       - "8081:3000"
   db:
+    # image: ghcr.io/hokita/kingyo_db:main
     build:
       context: .
       dockerfile: ./docker/db/Dockerfile
-    platform: linux/amd64
     environment:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=kingyo
