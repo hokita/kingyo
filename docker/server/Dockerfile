@@ -1,4 +1,9 @@
-FROM openjdk:11
-VOLUME /tmp
+FROM openjdk:11 AS builder
 WORKDIR /server
-COPY ./server/build/libs/*.jar /server/server.jar
+ADD ./server /server
+RUN ./gradlew build
+
+FROM openjdk:11
+WORKDIR /server
+COPY --from=builder /server/build/libs/*.jar /server/server.jar
+ENTRYPOINT ["java","-jar","/server/server.jar"]

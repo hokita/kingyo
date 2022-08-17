@@ -1,12 +1,49 @@
-FROM node:18.7
+# cf. https://github.com/vercel/next.js/blob/canary/examples/with-docker-multi-env/docker/development/Dockerfile
 
-WORKDIR /usr/src/app
+# 1. Install dependencies only when needed
+FROM node:16-alpine AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 
-COPY ./front/package.json ./
-COPY ./front/yarn.lock ./
+WORKDIR /app
 
-RUN yarn install
+# Install dependencies based on the preferred package manager
+COPY ./front/package.json ./front/yarn.lock* ./front/package-lock.json* ./front/pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-COPY ./front/ ./
-
+# 2. Rebuild the source code only when needed
+FROM node:16-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY ./front .
+# This will do the trick, use the corresponding env file for each environment.
+COPY ./front/.env.development.sample .env.production
 RUN yarn build
+
+# 3. Production image, copy all the files and run next
+FROM node:16-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+# These are original lines.
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+
+CMD ["node_modules/.bin/next", "start"]
