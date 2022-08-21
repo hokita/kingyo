@@ -2,7 +2,7 @@
 version: '3.6'
 services:
   server:
-    image: ghcr.io/hokita/kingyo_server:main
+    image: ghcr.io/hokita/kingyo_server:latest
       # build:
       #   context: .
       #   dockerfile: ./docker/server/Dockerfile
@@ -11,14 +11,14 @@ services:
     ports:
       - '8080:9000'
   front:
-    image: ghcr.io/hokita/kingyo_front:main
+    image: ghcr.io/hokita/kingyo_front:latest
       # build:
       #   context: .
       #   dockerfile: ./docker/front/Dockerfile
     ports:
       - "8081:3000"
   db:
-    image: ghcr.io/hokita/kingyo_db:main
+    image: ghcr.io/hokita/kingyo_db:latest
       # build:
       #   context: .
       #   dockerfile: ./docker/db/Dockerfile
