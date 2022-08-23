@@ -54,13 +54,21 @@ export const fetchPayments = createAsyncThunk(
   }
 )
 
+interface newPaymentForm {
+  description: string
+  amount: number
+  paidAt: string
+}
+
 export const createPayment = createAsyncThunk(
   'payments/createPayment',
-  async (description: string) => {
+  async (form: newPaymentForm) => {
+    const date = new Date(form.paidAt)
+    const paidAt = date.toISOString().split('.')[0] + '+09:00'
     const body = {
-      description,
-      amount: 1000,
-      paidAt: '2022-08-14T10:00:00+09:00',
+      description: form.description,
+      amount: form.amount,
+      paidAt,
     }
     const header = {
       'Content-Type': 'application/json',

@@ -67,6 +67,8 @@ export const AddPaymentButton = () => {
 
 export const NewPaymentForm = () => {
   const [description, setDiscription] = useState('')
+  const [amount, setAmount] = useState(0)
+  const [paidAt, setPaidAt] = useState('')
   const dispatch = useAppDispatch()
 
   return (
@@ -81,11 +83,31 @@ export const NewPaymentForm = () => {
             }
           />
         </FormControl>
+        <FormControl>
+          <FormLabel>Amount</FormLabel>
+          <Input
+            type="text"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setAmount(parseInt(e.target.value))
+            }
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel>Paid at</FormLabel>
+          <Input
+            type="date"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPaidAt(e.target.value)
+            }
+          />
+        </FormControl>
       </Box>
       <Box>
         <Button
           colorScheme="blue"
-          onClick={() => dispatch(createPayment(description))}
+          onClick={() =>
+            dispatch(createPayment({ description, amount, paidAt }))
+          }
         >
           Submit
         </Button>
