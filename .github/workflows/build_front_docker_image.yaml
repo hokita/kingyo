@@ -2,7 +2,6 @@ name: build_front_docker_image
 
 on:
   push:
-    branches: ['main']
     tags:
       - 'v*'
 
