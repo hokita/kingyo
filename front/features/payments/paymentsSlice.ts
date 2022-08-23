@@ -49,7 +49,9 @@ export default paymentsSlice.reducer
 export const fetchPayments = createAsyncThunk(
   'payments/getPayments',
   async () => {
-    const result = await axios.get('http://localhost:8080/payments')
+    const result = await axios.get(
+      'http://${process.env.REACT_APP_API_DOMAIN}/payments'
+    )
     return result.data
   }
 )
