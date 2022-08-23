@@ -13,14 +13,16 @@ import {
   FormHelperText,
   Input,
   IconButton,
+  Button,
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
-import { FC } from 'react'
+import { useState } from 'react'
 import { PaymentsState } from './paymentsSlice'
+import { createPayment } from '../../features/payments/paymentsSlice'
 import useAppSelector from '../../common/hooks/useAppSelector'
 import useAppDispatch from '../../common/hooks/useAppDispatch'
 
-export const Table: FC = () => {
+export const PaymentTable = () => {
   const { payments, loading } = useAppSelector((state) => state.payments)
 
   switch (loading) {
@@ -52,7 +54,7 @@ export const Table: FC = () => {
   }
 }
 
-export const AddButton = () => {
+export const AddPaymentButton = () => {
   const dispatch = useAppDispatch()
   return (
     <IconButton
@@ -63,14 +65,31 @@ export const AddButton = () => {
   )
 }
 
-export const DiscriptionForm: FC<{
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-}> = ({ onChange }) => {
+export const NewPaymentForm = () => {
+  const [description, setDiscription] = useState('')
   const dispatch = useAppDispatch()
+
   return (
-    <FormControl>
-      <FormLabel>Discription</FormLabel>
-      <Input type="text" onChange={onChange} />
-    </FormControl>
+    <>
+      <Box border="1px" borderColor="gray.200" mb={3}>
+        <FormControl>
+          <FormLabel>Discription</FormLabel>
+          <Input
+            type="text"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setDiscription(e.target.value)
+            }
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Button
+          colorScheme="blue"
+          onClick={() => dispatch(createPayment(description))}
+        >
+          Submit
+        </Button>
+      </Box>
+    </>
   )
 }

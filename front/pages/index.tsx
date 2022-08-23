@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { Heading } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
-import { Table as PaymentTable, AddButton } from '../features/payments/Payments'
+import { PaymentTable, AddPaymentButton } from '../features/payments/Payments'
 import { useState, useEffect } from 'react'
 import useAppDispatch from '../common/hooks/useAppDispatch'
 import { fetchPayments } from '../features/payments/paymentsSlice'
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
       <Box position="fixed" right="10" bottom="10">
         <Link href="/payments/new">
           <a>
-            <AddButton />
+            <AddPaymentButton />
           </a>
         </Link>
       </Box>
