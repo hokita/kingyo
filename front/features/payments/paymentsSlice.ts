@@ -14,11 +14,13 @@ interface Payment {
 export interface PaymentsState {
   payments: Payment[]
   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
+  creating: 'idle' | 'pending' | 'succeeded' | 'failed'
 }
 
 const initialState = {
   payments: [],
   loading: 'idle',
+  creating: 'idle',
 } as PaymentsState
 
 const paymentsSlice = createSlice({
@@ -37,7 +39,10 @@ const paymentsSlice = createSlice({
       state.loading = 'failed'
     })
     builder.addCase(createPayment.fulfilled, (state, action) => {
-      state.loading = 'succeeded'
+      state.creating = 'succeeded'
+    })
+    builder.addCase(createPayment.rejected, (state, action) => {
+      state.creating = 'failed'
     })
   },
 })
@@ -58,7 +63,7 @@ export const fetchPayments = createAsyncThunk(
 
 interface newPaymentForm {
   description: string
-  amount: number
+  amount: string
   paidAt: string
 }
 
@@ -69,7 +74,7 @@ export const createPayment = createAsyncThunk(
     const paidAt = date.toISOString().split('.')[0] + '+09:00'
     const body = {
       description: form.description,
-      amount: form.amount,
+      amount: parseInt(form.amount),
       paidAt,
     }
     const header = {

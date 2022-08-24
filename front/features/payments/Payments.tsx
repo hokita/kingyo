@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { PaymentsState } from './paymentsSlice'
 import { createPayment } from '../../features/payments/paymentsSlice'
 import useAppSelector from '../../common/hooks/useAppSelector'
@@ -67,9 +68,19 @@ export const AddPaymentButton = () => {
 
 export const NewPaymentForm = () => {
   const [description, setDiscription] = useState('')
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState('')
   const [paidAt, setPaidAt] = useState('')
   const dispatch = useAppDispatch()
+  const { creating } = useAppSelector((state) => state.payments)
+  const router = useRouter()
+
+  switch (creating) {
+    case 'succeeded':
+      router.replace('/')
+      break
+  }
+
+  const result = creating == 'failed' ? '失敗しました' : ''
 
   return (
     <>
@@ -78,6 +89,7 @@ export const NewPaymentForm = () => {
           <FormLabel>Discription</FormLabel>
           <Input
             type="text"
+            value={description}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setDiscription(e.target.value)
             }
@@ -86,9 +98,10 @@ export const NewPaymentForm = () => {
         <FormControl>
           <FormLabel>Amount</FormLabel>
           <Input
-            type="text"
+            type="number"
+            value={amount}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setAmount(parseInt(e.target.value))
+              setAmount(e.target.value)
             }
           />
         </FormControl>
@@ -96,6 +109,7 @@ export const NewPaymentForm = () => {
           <FormLabel>Paid at</FormLabel>
           <Input
             type="date"
+            value={paidAt}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setPaidAt(e.target.value)
             }
@@ -112,6 +126,7 @@ export const NewPaymentForm = () => {
           Submit
         </Button>
       </Box>
+      <Box>{result}</Box>
     </>
   )
 }
