@@ -75,8 +75,12 @@ export const createPayment = createAsyncThunk(
     const header = {
       'Content-Type': 'application/json',
     }
-    await axios.post('http://localhost:8080/payments', body, {
-      headers: header,
-    })
+    await axios.post(
+      `http://${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/payments`,
+      body,
+      {
+        headers: header,
+      }
+    )
   }
 )
