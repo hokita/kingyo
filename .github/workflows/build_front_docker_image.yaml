@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  SERVER_DOMAIN: ${{secrets.KINGYO_SERVER_DOMAIN}}
 
 jobs:
   build-and-push-image:
