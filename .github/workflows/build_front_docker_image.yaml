@@ -2,6 +2,8 @@ name: build_front_docker_image
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
@@ -39,6 +41,11 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}_front
+
+      - name: Add env to file
+        id: add_env
+        run: |
+          echo "NEXT_PUBLIC_SERVER_DOMAIN=${SERVER_DOMAIN}" > ./front/.env
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
