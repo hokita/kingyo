@@ -2,8 +2,8 @@ name: build_server_docker_image
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 
 env:
   REGISTRY: ghcr.io
