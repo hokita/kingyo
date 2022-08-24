@@ -50,7 +50,7 @@ export const fetchPayments = createAsyncThunk(
   'payments/getPayments',
   async () => {
     const result = await axios.get(
-      'http://${process.env.REACT_APP_API_DOMAIN}/payments'
+      `http://${process.env.REACT_APP_API_DOMAIN}/payments`
     )
     return result.data
   }
