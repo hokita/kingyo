@@ -44,6 +44,12 @@ const paymentsSlice = createSlice({
     builder.addCase(createPayment.rejected, (state, action) => {
       state.creating = 'failed'
     })
+    builder.addCase(deletePayment.fulfilled, (state, action) => {
+      state.creating = 'failed'
+      state.payments = state.payments.filter(
+        (payment) => payment.id !== action.payload
+      )
+    })
   },
 })
 
@@ -87,5 +93,21 @@ export const createPayment = createAsyncThunk(
         headers: header,
       }
     )
+  }
+)
+
+export const deletePayment = createAsyncThunk(
+  'payments/deletePayment',
+  async (id: number) => {
+    const header = {
+      'Content-Type': 'application/json',
+    }
+    await axios.delete(
+      `http://${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/payments/${id}`,
+      {
+        headers: header,
+      }
+    )
+    return id
   }
 )
