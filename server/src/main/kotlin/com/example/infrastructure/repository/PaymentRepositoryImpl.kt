@@ -29,7 +29,7 @@ class PaymentRepositoryImpl(
                 amount = amount,
                 paidAt = paidAt,
                 createdAt = createAt,
-                updatedAt = updatedAt,
+                updatedAt = updatedAt
             )
 
             payments.add(payment)
@@ -49,6 +49,16 @@ class PaymentRepositoryImpl(
         statement.setObject(3, payment.paidAt)
         statement.setObject(4, payment.createdAt)
         statement.setObject(5, payment.updatedAt)
+        statement.executeUpdate()
+    }
+
+    override fun delete(
+        id: Int
+    ) {
+        val statement = connection.prepareStatement(
+            "DELETE from payments where id = ?;"
+        )
+        statement.setInt(1, id)
         statement.executeUpdate()
     }
 }

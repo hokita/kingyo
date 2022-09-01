@@ -65,7 +65,8 @@ class Router(
                         }.then(
                             routes(
                                 "/payments" bind Method.GET to paymentHandler.getAll,
-                                "/payments" bind Method.POST to paymentHandler.create
+                                "/payments" bind Method.POST to paymentHandler.create,
+                                "/payments/{id}" bind Method.DELETE to paymentHandler.delete
                             )
                         )
                     )

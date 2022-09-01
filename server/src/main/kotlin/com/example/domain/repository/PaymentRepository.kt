@@ -6,4 +6,5 @@ import com.example.domain.entity.Payments
 interface PaymentRepository {
     fun getAll(): Payments
     fun create(payment: Payment)
+    fun delete(id: Int)
 }
