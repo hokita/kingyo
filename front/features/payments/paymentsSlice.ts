@@ -26,7 +26,11 @@ const initialState = {
 const paymentsSlice = createSlice({
   name: 'payments',
   initialState,
-  reducers: {},
+  reducers: {
+    resetCreating(state) {
+      state.creating = 'idle'
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchPayments.pending, (state, action) => {
       state.loading = 'pending'
@@ -54,6 +58,7 @@ const paymentsSlice = createSlice({
 })
 
 export default paymentsSlice.reducer
+export const { resetCreating } = paymentsSlice.actions
 
 // Thunk
 

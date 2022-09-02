@@ -6,13 +6,17 @@ import { Box } from '@chakra-ui/react'
 import { PaymentTable, AddPaymentButton } from '../features/payments/Payments'
 import { useState, useEffect } from 'react'
 import useAppDispatch from '../common/hooks/useAppDispatch'
-import { fetchPayments } from '../features/payments/paymentsSlice'
+import {
+  fetchPayments,
+  resetCreating,
+} from '../features/payments/paymentsSlice'
 import { AppDispatch } from '../app/store'
 
 const Home: NextPage = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    dispatch(resetCreating())
     dispatch(fetchPayments())
   }, [dispatch])
 
