@@ -21,9 +21,9 @@ class PaymentHandler(
     private val systemDateTime: SystemZonedDateTime,
     private val paymentRepository: PaymentRepository
 ) {
-    val getAll: HttpHandler = { _: Request ->
+    val get: HttpHandler = { request: Request ->
         val paymentLens = Body.auto<PaymentsView>().toLens()
-        val payments = paymentRepository.getAll()
+        val payments = paymentRepository.get(request.query("yearDate") ?: "")
         val paymentsView = newPaymentsView(payments, systemDateTime)
         Response(OK).with(paymentLens of paymentsView)
     }

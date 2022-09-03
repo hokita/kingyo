@@ -4,15 +4,26 @@ import com.example.domain.entity.Payment
 import com.example.domain.entity.Payments
 import com.example.domain.repository.PaymentRepository
 import java.sql.Connection
+import java.sql.PreparedStatement
 import java.time.ZonedDateTime
 
 class PaymentRepositoryImpl(
     private val connection: Connection
 ) : PaymentRepository {
 
-    override fun getAll(): Payments {
-        val statement = connection.createStatement()
-        val rs = statement.executeQuery("SELECT * FROM payments;")
+    override fun get(yearMonth: String): Payments {
+        val statement: PreparedStatement
+        var query = "SELECT * FROM payments"
+        if (yearMonth.isNotEmpty()) {
+            query += " WHERE DATE_FORMAT(paid_at, '%Y%m') = ?;"
+            statement = connection.prepareStatement(query)
+            statement.setString(1, yearMonth)
+        } else {
+            query += ";"
+            statement = connection.prepareStatement(query)
+        }
+
+        val rs = statement.executeQuery()
 
         val payments = mutableListOf<Payment>()
         while (rs.next()) {
