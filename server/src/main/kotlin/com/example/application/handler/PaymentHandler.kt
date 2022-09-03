@@ -16,14 +16,11 @@ import org.http4k.core.Status.Companion.OK
 import org.http4k.core.with
 import org.http4k.format.Jackson.auto
 import org.http4k.routing.path
-import java.time.format.DateTimeFormatter
 
 class PaymentHandler(
     private val systemDateTime: SystemZonedDateTime,
     private val paymentRepository: PaymentRepository
 ) {
-    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX")
-
     val getAll: HttpHandler = { _: Request ->
         val paymentLens = Body.auto<PaymentsView>().toLens()
         val payments = paymentRepository.getAll()
