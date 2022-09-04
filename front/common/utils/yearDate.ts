@@ -6,14 +6,14 @@ export const formatYearDate = (date: Date): String => {
 }
 
 export const previousMonth = (yearDate: String): String => {
-  const date = new Date(yearDate.slice(0, 4) + '/' + yearDate.slice(4))
+  const date = new Date(yearDate.slice(0, 4) + '/' + yearDate.slice(4) + '/01')
   date.setMonth(date.getMonth() - 1)
 
   return formatYearDate(date)
 }
 
 export const nextMonth = (yearDate: String): String => {
-  const date = new Date(yearDate.slice(0, 4) + '/' + yearDate.slice(4))
+  const date = new Date(yearDate.slice(0, 4) + '/' + yearDate.slice(4) + '/01')
   date.setMonth(date.getMonth() + 1)
 
   return formatYearDate(date)
