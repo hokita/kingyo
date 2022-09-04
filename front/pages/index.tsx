@@ -2,7 +2,11 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import { Heading, HStack, Box } from '@chakra-ui/react'
-import { PaymentTable, AddPaymentButton } from '../features/payments/Payments'
+import {
+  PaymentTable,
+  AddPaymentButton,
+  PaymentTotalAmount,
+} from '../features/payments/Payments'
 import { useState, useEffect } from 'react'
 import useAppSelector from '../common/hooks/useAppSelector'
 import useAppDispatch from '../common/hooks/useAppDispatch'
@@ -39,6 +43,7 @@ const Home: NextPage = () => {
         <Heading as="h2" size="lg" mb={3}>
           {yearDate}
         </Heading>
+        <PaymentTotalAmount mb={3} />
         <HStack>
           <Box>
             <a onClick={() => dispatch(previousMonth())}>previous</a>

@@ -14,6 +14,7 @@ import {
   Input,
   IconButton,
   Button,
+  Heading,
 } from '@chakra-ui/react'
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { useState, FunctionComponent } from 'react'
@@ -25,6 +26,18 @@ import {
 } from '../../features/payments/paymentsSlice'
 import useAppSelector from '../../common/hooks/useAppSelector'
 import useAppDispatch from '../../common/hooks/useAppDispatch'
+
+export const PaymentTotalAmount = ({ ...rest }) => {
+  const { payments } = useAppSelector((state) => state.payments)
+  return (
+    <Heading as="h3" size="md" {...rest}>
+      Total: &yen;
+      {payments
+        .reduce((sum, payment) => sum + payment.amount, 0)
+        .toLocaleString()}
+    </Heading>
+  )
+}
 
 export const PaymentTable = () => {
   const { payments, loading } = useAppSelector((state) => state.payments)
