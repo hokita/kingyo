@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AppDispatch } from '../../app/store'
 import axios from 'axios'
+import {
+  formatYearDate,
+  previousMonth as previous,
+  nextMonth as next,
+} from '../../common/utils/yearDate'
 
 interface Payment {
   id: number
@@ -15,12 +20,14 @@ export interface PaymentsState {
   payments: Payment[]
   loading: 'idle' | 'pending' | 'succeeded' | 'failed'
   creating: 'idle' | 'pending' | 'succeeded' | 'failed'
+  yearDate: String
 }
 
 const initialState = {
   payments: [],
   loading: 'idle',
   creating: 'idle',
+  yearDate: formatYearDate(new Date()),
 } as PaymentsState
 
 const paymentsSlice = createSlice({
@@ -29,6 +36,12 @@ const paymentsSlice = createSlice({
   reducers: {
     resetCreating(state) {
       state.creating = 'idle'
+    },
+    previousMonth(state) {
+      state.yearDate = previous(state.yearDate)
+    },
+    nextMonth(state) {
+      state.yearDate = next(state.yearDate)
     },
   },
   extraReducers: (builder) => {
@@ -58,15 +71,15 @@ const paymentsSlice = createSlice({
 })
 
 export default paymentsSlice.reducer
-export const { resetCreating } = paymentsSlice.actions
+export const { resetCreating, previousMonth, nextMonth } = paymentsSlice.actions
 
 // Thunk
 
 export const fetchPayments = createAsyncThunk(
   'payments/getPayments',
-  async () => {
+  async (yearDate: String) => {
     const result = await axios.get(
-      `http://${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/payments`
+      `http://${process.env.NEXT_PUBLIC_SERVER_DOMAIN}/payments?yearDate=${yearDate}`
     )
     return result.data
   }
