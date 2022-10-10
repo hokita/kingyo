@@ -26,9 +26,9 @@ fun main() {
     val connection: Connection
     try {
         connection = DriverManager.getConnection(
-            "jdbc:mysql://db/kingyo?autoReconnect=true",
-            "sa",
-            "1234"
+            "jdbc:mysql://localhost/kingyo?autoReconnect=true",
+            "kingyo",
+            "password"
         )
     } catch (e: Exception) {
         e.printStackTrace()
