@@ -1,0 +1,6 @@
+spring:
+  r2dbc:
+    url: "r2dbc:mysql://db/kingyo?autoReconnect=true"
+    username: sa
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver

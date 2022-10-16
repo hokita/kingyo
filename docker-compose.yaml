@@ -4,11 +4,11 @@ services:
   server:
     build:
       context: .
-      dockerfile: ./docker/server/Dockerfile
+      dockerfile: ./docker/server2/Dockerfile
     depends_on:
       - db
     ports:
-      - '8080:9000'
+      - '8080:8080'
   front:
     build:
       context: .
