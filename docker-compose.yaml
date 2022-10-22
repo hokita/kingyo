@@ -4,7 +4,7 @@ services:
   server:
     build:
       context: .
-      dockerfile: ./docker/server2/Dockerfile
+      dockerfile: ./docker/server/Dockerfile
     depends_on:
       - db
     ports:
