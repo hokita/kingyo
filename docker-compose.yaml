@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/server/Dockerfile
-    depends_on:
-      - db
     ports:
       - '8080:8080'
   front:
@@ -15,17 +13,3 @@ services:
       dockerfile: ./docker/front/Dockerfile
     ports:
       - "8081:3000"
-  db:
-    build:
-      context: .
-      dockerfile: ./docker/db/Dockerfile
-    environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=kingyo
-      - MYSQL_USER=sa
-      - MYSQL_PASSWORD=1234
-    volumes:
-      - db-store:/var/lib/mysql
-      - ./logs:/var/log/mysql
-volumes:
-  db-store:

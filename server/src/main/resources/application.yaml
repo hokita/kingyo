@@ -1,6 +1,6 @@
 spring:
   r2dbc:
-    url: "r2dbc:mysql://db/kingyo?autoReconnect=true"
-    username: sa
-    password: 1234
+    url: "r2dbc:mysql://192.168.3.4/kingyo_dev?autoReconnect=true"
+    username: kingyo
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
